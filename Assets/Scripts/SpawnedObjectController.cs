@@ -15,13 +15,15 @@ public class SpawnedObjectController : MonoBehaviour
     [SerializeField] float respawnTime = 0f;//count time to respawn after hp loss
     [SerializeField] bool respawn = false;
 
+    bool globalShoot = false;
     void Start()
     {
         randomTimeToRotate = Random.Range(0f, 1f);
     }
-    public void SetBulletPool(BulletPool pool)
+    public void SetObjectData(BulletPool bPool,bool globalShootTimer)
     {
-        bulletPool = pool;
+        bulletPool = bPool;
+        globalShoot = globalShootTimer;
     }
     public void GotHit()
     {
@@ -74,12 +76,11 @@ public class SpawnedObjectController : MonoBehaviour
             timer += Time.deltaTime;
         }
 
+
+        if (globalShoot) { return; } //stop shooting if shooting is based on global timer
         if (shootTimer >= 1)
         {
-            shootTimer = 0f;
-            Vector3 spawnPos = transform.position + transform.forward;
-            Quaternion spawnRot = transform.rotation;
-            bulletPool.SpawnBullet(spawnPos, spawnRot); //spawn bullet from bulletpool instead of instantiating it to use less resources 
+            Shoot();
         }
         else
         {
@@ -87,5 +88,12 @@ public class SpawnedObjectController : MonoBehaviour
         }
       
        
+    }
+    public void Shoot()
+    {
+        shootTimer = 0f;
+        Vector3 spawnPos = transform.position + transform.forward;
+        Quaternion spawnRot = transform.rotation;
+        bulletPool.SpawnBullet(spawnPos, spawnRot); //spawn bullet from bulletpool instead of instantiating it to use less resources 
     }
 }

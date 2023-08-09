@@ -528,6 +528,7 @@ MonoBehaviour:
   gridMin: {x: -50, y: 1, z: -50}
   gridMax: {x: 50, y: 1, z: 50}
   spawnedObjects: []
+  globalShootTimer: 0
 --- !u!114 &338120153
 MonoBehaviour:
   m_ObjectHideFlags: 0

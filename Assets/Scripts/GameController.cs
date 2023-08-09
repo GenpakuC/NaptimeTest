@@ -24,6 +24,8 @@ public class GameController : MonoBehaviour
 
     List<Vector3> spawnPlaces = new List<Vector3>();
 
+    [SerializeField] bool globalShootTimer = false;
+    float shootTimer = 0f; //count time to next shoot
     void Start()
     {
         endGameUI.SetActive(false);
@@ -37,6 +39,26 @@ public class GameController : MonoBehaviour
         {
             EndGame();
         }
+
+        if (globalShootTimer) //if global shoot is activated then shoot all bullets at once
+        {
+            if (shootTimer >= 1)
+            {
+                shootTimer = 0f;
+                for (int x = 0; x < spawnedObjects.Count; x++)
+                {
+                    if (spawnedObjects[x].transform.GetChild(0).gameObject.activeInHierarchy)
+                    {
+                        spawnedObjects[x].GetComponent<SpawnedObjectController>().Shoot();
+                    }               
+                }              
+            }
+            else
+            {
+                shootTimer += Time.deltaTime;
+            }       
+        }
+
     }
     void EndGame()
     {
@@ -58,7 +80,7 @@ public class GameController : MonoBehaviour
       objectsToSpawn = int.Parse(objToSpawnDD.options[objToSpawnDD.value].text);
       GenerateSpawnPlaces(); //calculate position for all objects to spawn to make it easier for them to spawn at once
       GenerateAllObjects(); //spawn all object in generated before positions
-      PrepareBullets(); // prepare first bullets to remove lagspike from spawning all of them at once
+     // PrepareBullets(); // prepare first bullets to remove lagspike from spawning all of them at once
       objAliveTxt.gameObject.SetActive(true);
     }
     void PrepareBullets()
@@ -81,7 +103,7 @@ public class GameController : MonoBehaviour
         for (int x=0;x<spawnPlaces.Count;x++)
         {
             GameObject spawnedObj = Instantiate(objToSpawnPref, spawnPlaces[x], objToSpawnPref.transform.rotation);
-            spawnedObj.GetComponent<SpawnedObjectController>().SetBulletPool(bulletPool);
+            spawnedObj.GetComponent<SpawnedObjectController>().SetObjectData(bulletPool,globalShootTimer);
             spawnedObj.name = "Object " + x;
             spawnedObjects.Add(spawnedObj);
         }
