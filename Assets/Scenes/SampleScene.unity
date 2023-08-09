@@ -2393,7 +2393,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Restart
+  m_Text: Replay
 --- !u!222 &1700735336
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2902,7 +2902,7 @@ GameObject:
   - component: {fileID: 2114648024}
   - component: {fileID: 2114648023}
   m_Layer: 5
-  m_Name: Button Restart (Legacy)
+  m_Name: Button Replay (Legacy)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
