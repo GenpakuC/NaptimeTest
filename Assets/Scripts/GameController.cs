@@ -45,13 +45,7 @@ public class GameController : MonoBehaviour
             if (shootTimer >= 1)
             {
                 shootTimer = 0f;
-                for (int x = 0; x < spawnedObjects.Count; x++)
-                {
-                    if (spawnedObjects[x].transform.GetChild(0).gameObject.activeInHierarchy)
-                    {
-                        spawnedObjects[x].GetComponent<SpawnedObjectController>().Shoot();
-                    }               
-                }              
+                StartCoroutine(Shoot());
             }
             else
             {
@@ -59,6 +53,17 @@ public class GameController : MonoBehaviour
             }       
         }
 
+    }
+    IEnumerator Shoot()
+    {
+        for (int x = 0; x < spawnedObjects.Count; x++)
+        {
+            if (spawnedObjects[x].transform.GetChild(0).gameObject.activeInHierarchy)
+            {
+                spawnedObjects[x].GetComponent<SpawnedObjectController>().Shoot();
+            }
+        }
+        yield return null;
     }
     void EndGame()
     {
